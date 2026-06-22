@@ -11,24 +11,27 @@
 - Repository baseline documentation added (`goal.md`).
 - Progress tracking structure and baseline implementation scripts added.
 - Added milestone-oriented documentation and ADR index.
+- Added unsupported-feature/build-mode checker package (`src/cmd/compile/internal/gojvm/checks`).
+- Added checker command (`gojvmcheck`) and backend validation integration in compile scaffolding.
 
 ## In progress
 
 - Creating the `GOOS=jvm` target registration path in a minimal fork.
-- Wiring explicit rejection for unsupported inputs (`cgo`, `unsafe`, assembly files).
-- Bootstrapping runtime build and JAR packaging checks.
+- Wiring explicit rejection for unsupported inputs (`cgo`, `unsafe`, assembly files) end-to-end.
+- Integrating target registration and branch-point integration into an actual Go 1.26.4 checkout.
 
 ## Next three tasks
 
 1. Materialize the Go 1.26.4 fork and branch policy with reproducible setup script.
-2. Add explicit diagnostics for unsupported features and build modes.
-3. Add CI checks for docs, scripts, and helper command outputs.
+2. Materialize the Go 1.26.4 fork plus target registration edits.
+3. Replace placeholder back-end/compiler packages with functional classfile and linker flow.
 
 ## Tests run
 
 - `./scripts/milestone-check.sh` (initial scaffold validation)
 - `bash -n` on all added shell scripts
-- `go test ./...` (scaffold package compile check)
+- `go test ./...` (validation tests now cover unsupported feature checks)
+- `bash scripts/check-unsupported-features.sh .` (go-based enforcement path)
 
 ## Known failures
 
