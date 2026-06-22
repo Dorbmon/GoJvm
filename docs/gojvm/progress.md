@@ -2,8 +2,8 @@
 
 - Last updated: 2026-06-22
 - Branch: feature/gojvm-backend
-- Last pushed commit: not yet pushed
-- Last known-good commit: not yet recorded
+- Last pushed commit: de4a813
+- Last known-good commit: de4a813
 - Current milestone: M0 (Fork, Target Skeleton, and CI)
 
 ## Completed
