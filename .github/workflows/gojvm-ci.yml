@@ -1,0 +1,32 @@
+name: GoJVM CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - feature/gojvm-backend
+
+jobs:
+  validate-gojvm-scaffold:
+    name: Validate GoJVM scaffolding
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [21, 25]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: temurin
+
+      - name: Verify repository bootstrap artifacts
+        run: |
+          ./scripts/milestone-check.sh
+
+      - name: Reject unsupported imports (no-op if no Go sources)
+        run: |
+          ./scripts/check-unsupported-features.sh .

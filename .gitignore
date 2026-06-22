@@ -1,0 +1,6 @@
+build/
+*.jar
+*.class
+/src/gojvm/runtime-java/build/
+/.idea/
+*.swp
