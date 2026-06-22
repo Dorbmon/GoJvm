@@ -30,3 +30,7 @@ jobs:
       - name: Reject unsupported imports (no-op if no Go sources)
         run: |
           ./scripts/check-unsupported-features.sh .
+
+      - name: Build JVM runtime bootstrap
+        run: |
+          ./scripts/build-gojvm-runtime.sh

@@ -22,6 +22,8 @@ check_dir() {
 
 check_file "goal.md"
 check_file "README.md"
+check_file "scripts/build-gojvm-runtime.sh"
+check_file "src/gojvm/runtime-java/build.sh"
 check_file ".github/workflows/gojvm-ci.yml"
 check_file "docs/gojvm/progress.md"
 check_file "docs/gojvm/compatibility.md"

@@ -31,4 +31,4 @@ Use the helper scripts:
 
 - `scripts/init-gojvm-workspace.sh` to initialize a local Go 1.26.4 fork and branch.
 - `scripts/milestone-check.sh` to validate basic repository invariants.
-
+- `scripts/build-gojvm-runtime.sh` to build the JVM runtime bootstrap JAR (currently using javac --release 21).

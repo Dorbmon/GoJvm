@@ -2,8 +2,8 @@
 
 - Last updated: 2026-06-22
 - Branch: feature/gojvm-backend
-- Last pushed commit: 5033e39
-- Last known-good commit: 5033e39
+- Last pushed commit: f6c51b3
+- Last known-good commit: f6c51b3
 - Current milestone: M0 (Fork, Target Skeleton, and CI)
 
 ## Completed
@@ -14,6 +14,7 @@
 - Added unsupported-feature/build-mode policy package shared at `src/gojvm/target`.
 - Added compile-side checker package (`src/cmd/compile/internal/gojvm/checks`) with CLI (`gojvmcheck`) and tests.
 - Wired policy/validation through `CompilePackage` and `cmd/go` scaffolding helpers.
+- Added runtime bootstrap build path (`scripts/build-gojvm-runtime.sh`) and Makefile/CI hooks to build and verify `gojvm-rt.jar`.
 
 ## In progress
 
@@ -33,6 +34,7 @@
 - `bash -n` on all added shell scripts
 - `go test ./...` (validation tests now cover unsupported feature checks)
 - `bash scripts/check-unsupported-features.sh .` (go-based enforcement path)
+- `./scripts/build-gojvm-runtime.sh` (runtime bootstrap build validation)
 
 ## Known failures
 
