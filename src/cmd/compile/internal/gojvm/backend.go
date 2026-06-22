@@ -1,9 +1,8 @@
 package gojvm
 
 import (
-	"fmt"
-
 	"gojvm-backend/src/cmd/compile/internal/gojvm/checks"
+	"gojvm-backend/src/gojvm/target"
 )
 
 // Config is the minimum metadata passed from the front-end driver.
@@ -22,8 +21,8 @@ type Config struct {
 // CompilePackage is the JVM backend entrypoint once front-end integration reaches
 // the insertion point defined by ADR-0002.
 func CompilePackage(cfg Config) error {
-	if cfg.GOOS != "jvm" || cfg.GOARCH != "jvm" {
-		return fmt.Errorf("gojvm: unsupported target %s/%s", cfg.GOOS, cfg.GOARCH)
+	if err := target.ValidateTarget(cfg.GOOS, cfg.GOARCH); err != nil {
+		return err
 	}
 	issues, err := checks.ValidateSources(cfg.SourceFiles)
 	if err != nil {

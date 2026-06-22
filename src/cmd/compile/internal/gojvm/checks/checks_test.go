@@ -28,6 +28,22 @@ func TestValidateSourcesRejectsCGOAndUnsafe(t *testing.T) {
 	}
 }
 
+func TestValidateSourcesRejectsLinkname(t *testing.T) {
+	dir := t.TempDir()
+	linkFile := filepath.Join(dir, "linkname.go")
+	if err := os.WriteFile(linkFile, []byte("package main\n\n//go:linkname putsymbol runtime.putsymbol\nfunc f() {}\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	issues, err := ValidateSources([]string{linkFile})
+	if err != nil {
+		t.Fatalf("ValidateSources error: %v", err)
+	}
+	if got, want := len(issues), 1; got != want {
+		t.Fatalf("got %d issues, want %d", got, want)
+	}
+}
+
 func TestValidateSourcesRejectsAssembly(t *testing.T) {
 	dir := t.TempDir()
 	asm := filepath.Join(dir, "x.s")

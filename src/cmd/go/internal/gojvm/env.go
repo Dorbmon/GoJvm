@@ -1,6 +1,8 @@
 package gojvm
 
-import "fmt"
+import (
+	"gojvm-backend/src/gojvm/target"
+)
 
 // EnvConfig holds compiler-invocation variables of interest.
 type EnvConfig struct {
@@ -8,22 +10,22 @@ type EnvConfig struct {
 	GOARCH string
 }
 
-const (
-	// JVM supports only executable output in the first milestone.
-	SupportedBuildMode = "exe"
-)
-
 func ValidateTarget(cfg EnvConfig) error {
-	if cfg.GOOS != "jvm" || cfg.GOARCH != "jvm" {
-		return fmt.Errorf("gojvm: unsupported target %s/%s", cfg.GOOS, cfg.GOARCH)
-	}
-	return nil
+	return target.ValidateTarget(cfg.GOOS, cfg.GOARCH)
 }
 
 // ValidateBuildMode rejects non-exe build modes for the JVM target.
 func ValidateBuildMode(mode string) error {
-	if mode == "" || mode == SupportedBuildMode {
-		return nil
-	}
-	return fmt.Errorf("gojvm: unsupported build mode %q for GOOS=GOARCH=jvm; use -buildmode=exe", mode)
+	return target.ValidateBuildMode(mode)
+}
+
+// Constants used by command glue.
+const SupportedBuildMode = target.BuildModeExe
+
+func IsGoJVMTarget(goos, goarch string) bool {
+	return target.IsJVM(goos, goarch)
+}
+
+func IsBuildModeSupported(mode string) bool {
+	return target.IsBuildModeSupported(mode)
 }

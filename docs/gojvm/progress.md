@@ -11,8 +11,9 @@
 - Repository baseline documentation added (`goal.md`).
 - Progress tracking structure and baseline implementation scripts added.
 - Added milestone-oriented documentation and ADR index.
-- Added unsupported-feature/build-mode checker package (`src/cmd/compile/internal/gojvm/checks`).
-- Added checker command (`gojvmcheck`) and backend validation integration in compile scaffolding.
+- Added unsupported-feature/build-mode policy package shared at `src/gojvm/target`.
+- Added compile-side checker package (`src/cmd/compile/internal/gojvm/checks`) with CLI (`gojvmcheck`) and tests.
+- Wired policy/validation through `CompilePackage` and `cmd/go` scaffolding helpers.
 
 ## In progress
 

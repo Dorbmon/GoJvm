@@ -1,13 +1,14 @@
 package checks
 
 import (
-	"fmt"
 	"go/parser"
 	"go/token"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"gojvm-backend/src/gojvm/target"
 )
 
 type IssueKind string
@@ -29,12 +30,10 @@ type Issue struct {
 func (i Issue) Error() string { return i.Message }
 
 const (
-	SupportedBuildMode = "exe"
-
-	msgCGO       = `go: GOOS=jvm does not support cgo; use CGO_ENABLED=0 and remove imports of "C"`
-	msgUnsafe    = `go: import of "unsafe" is not supported when GOOS=GOARCH=jvm`
-	msgAssembly  = `go: GOOS=jvm does not support Go assembly (.s/.S) files`
-	msgBuildMode = `go: GOOS=jvm supports only -buildmode=exe`
+	msgCGO      = target.MsgCGOUnsupported
+	msgUnsafe   = target.MsgUnsafeUnsupported
+	msgAssembly = target.MsgAssemblyUnsupported
+	msgLinkname = target.MsgLinknameUnsupported
 )
 
 // ValidateSources checks .go and assembly inputs for unsupported features for the JVM target.
@@ -70,10 +69,7 @@ func ValidateSources(paths []string) ([]Issue, error) {
 
 // ValidateBuildMode enforces the JVM-only build mode constraint.
 func ValidateBuildMode(mode string) error {
-	if mode == "" || mode == SupportedBuildMode {
-		return nil
-	}
-	return fmt.Errorf(msgBuildMode)
+	return target.ValidateBuildMode(mode)
 }
 
 func expandPaths(paths []string, seen map[string]struct{}) ([]string, error) {
@@ -151,7 +147,7 @@ func validateGoFile(path string) ([]Issue, error) {
 					Line:    pos.Line,
 					Column:  pos.Column,
 					Kind:    IssueCGO,
-					Message: `go: //go:linkname is disabled for GOOS=jvm`,
+					Message: msgLinkname,
 				})
 			}
 		}
